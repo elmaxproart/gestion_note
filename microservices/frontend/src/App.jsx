@@ -125,13 +125,13 @@ function App() {
                         className={`tab ${activeTab === 'etudiants' ? 'active' : ''}`}
                         onClick={() => setActiveTab('etudiants')}
                     >
-                        👨‍🎓 Étudiants
+                         Étudiants
                     </button>
                     <button
                         className={`tab ${activeTab === 'notes' ? 'active' : ''}`}
                         onClick={() => setActiveTab('notes')}
                     >
-                        📝 Notes
+                        Notes
                     </button>
                 </div>
 

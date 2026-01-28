@@ -48,14 +48,13 @@ Comparer deux architectures différentes pour un même cas d'usage :
 
 ```bash
 cd monolitique
-# Voir le README.md dans ce dossier pour les instructions détaillées
+
 ```
 
 ### Microservices
 
 ```bash
 cd microservices
-# Voir le README.md dans ce dossier pour les instructions détaillées
 ```
 
 ## 🔍 Comparaison des architectures
@@ -104,7 +103,7 @@ Les deux frontends ont des interfaces similaires mais avec des couleurs différe
 Les deux implémentations offrent les mêmes fonctionnalités :
 - ✅ CRUD complet pour les étudiants
 - ✅ CRUD complet pour les notes
-- ✅ Interface moderne et réactive
+- ✅ Interface
 - ✅ Validation des données
 
 ## 🛠️ Technologies utilisées
