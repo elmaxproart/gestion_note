@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  # Base de données PostgreSQL pour les étudiants
+  postgres-students:
+    image: postgres:15-alpine
+    container_name: microservices-postgres-students
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: students_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_students_data:/var/lib/postgresql/data
+      - ./student-service/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - microservices-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Base de données PostgreSQL pour les notes
+  postgres-notes:
+    image: postgres:15-alpine
+    container_name: microservices-postgres-notes
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: notes_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_notes_data:/var/lib/postgresql/data
+      - ./notes-service/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - microservices-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Service Étudiants
+  student-service:
+    build:
+      context: ./student-service
+      dockerfile: Dockerfile
+    container_name: microservices-student-service
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=postgres-students
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=students_db
+    depends_on:
+      postgres-students:
+        condition: service_healthy
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  # Service Notes
+  notes-service:
+    build:
+      context: ./notes-service
+      dockerfile: Dockerfile
+    container_name: microservices-notes-service
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=postgres-notes
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=notes_db
+    depends_on:
+      postgres-notes:
+        condition: service_healthy
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  # Frontend React
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: microservices-frontend
+    ports:
+      - "5174:5174"
+    depends_on:
+      - student-service
+      - notes-service
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+networks:
+  microservices-network:
+    driver: bridge
+
+volumes:
+  postgres_students_data:
+  postgres_notes_data:
