@@ -112,10 +112,10 @@ function App() {
     return (
         <div className="app">
             <div className="header">
-                <h1>🚀 Gestion des Notes</h1>
+                <h1>Gestion des Notes</h1>
                 <p>Architecture Microservices</p>
                 <div className="services-badge">
-                    🔹 Service Étudiants (3002) | 🔹 Service Notes (3003)
+                     Service Étudiants (3002) |  Service Notes (3003)
                 </div>
             </div>
 

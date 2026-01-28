@@ -105,7 +105,7 @@ function App() {
     return (
         <div className="app">
             <div className="header">
-                <h1>📚 Gestion des Notes</h1>
+                <h1> Gestion des Notes</h1>
                 <p>Architecture Monolithique</p>
             </div>
 
@@ -115,13 +115,13 @@ function App() {
                         className={`tab ${activeTab === 'etudiants' ? 'active' : ''}`}
                         onClick={() => setActiveTab('etudiants')}
                     >
-                        👨‍🎓 Étudiants
+                         Étudiants
                     </button>
                     <button
                         className={`tab ${activeTab === 'notes' ? 'active' : ''}`}
                         onClick={() => setActiveTab('notes')}
                     >
-                        📝 Notes
+                       Notes
                     </button>
                 </div>
 
